@@ -3,13 +3,21 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@fluentui/react": "^7.137.1",
+    "@microsoft/signalr": "^3.1.8",
+    "@uifabric/fluent-theme": "^7.3.7",
+    "@uifabric/icons": "^7.5.0",
     "axios": "^0.20.0",
     "jquery": "3.4.1",
+    "office-ui-fabric-react": "^7.137.1",
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "react-draggable": "4.0.3",
     "react-feather": "2.0.3",
+    "react-redux": "^7.2.1",
     "react-scripts": "3.1.2",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^5.2.0"
   },
   "scripts": {

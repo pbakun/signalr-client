@@ -1,49 +1,94 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from "styled-components";
+import { PrimaryButton, TextField } from "@fluentui/react";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { connectToHub, changeHubUrl, disconnectHub } from '../Store/actions/hub/hubActions';
+import HubConnection from '../Constants/HubConnection';
+import { isConnected } from './../Store/actions/hub/hubHelpers';
 
 const Container = styled.div`
     margin: 15px 45px;
     padding: 5px;
 `;
 
-const UrlInput = styled.input`
-    width: 300px;
-    border-radius: 2px;
-    border: none;
-    font-size: 0.9rem;
-    padding: 2px;
-`;
-
 const FlexDiv = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    width: 80%;
+    justify-content: space-between;
 `;
 
-const ConnectBtn = styled.button`
-    border-radius: 4px;
-    min-width: 50px;
-    padding: 3px;
-    margin: 3px;
-    text-transform: uppercase;
-    font-weight: 600;
-    cursor: pointer;
-`;
+const styles = {
+    textFieldStyles: {
+        fieldGroup: {
+            width: 300
+        }
+    }
+};
+
+const translateHubConnectionState = (state) => {
+    switch(state){
+        case HubConnection.CONNECTED:
+            return "Disconnect";
+        case HubConnection.CONNECTING:
+            return "Connecting...";
+        default:
+            return "Connect";
+    }
+}
 
 const ServerConnection = props => {
+    const { hubUrl, hubConnection } = props;
+
+    const handleConnectClick = () => {
+        if(!isConnected(hubConnection))
+            props.connectToHub();
+        else props.disconnectHub();
+    }
+
+    const handleUrlChange = e => {
+        props.changeHubUrl(e.target.value);
+    }
+
     return (
         <Container>
-            <p>Hub url:</p>
             <FlexDiv>
-                <UrlInput placeholder="https://localhost:5001/hub"/>
-                <ConnectBtn>Connect</ConnectBtn>
+                <TextField
+                    styles={styles.textFieldStyles}
+                    label="Hub URL"
+                    placeholder="https://localhost:5001/hub"
+                    value={hubUrl}
+                    onChange={handleUrlChange}
+                />
+                <PrimaryButton
+                    primary
+                    onClick={handleConnectClick}
+                >
+                    {translateHubConnectionState(hubConnection)}
+                </PrimaryButton>
             </FlexDiv>
         </Container>
     )
 }
 
+const mapStateToProps = (state) => ({
+    hubUrl: state.hubReducer.url,
+    hubConnection: state.hubReducer.isConnected
+});
+
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({connectToHub, changeHubUrl, disconnectHub}, dispatch);
+};
+
+
 ServerConnection.propTypes = {
+    //redux
+    hubUrl: PropTypes.string,
+    hubConnected: PropTypes.number,
+    connectToHub: PropTypes.func,
+    changeHubUrl: PropTypes.func
+};
 
-}
-
-export default ServerConnection
+export default connect(mapStateToProps, mapDispatchToProps)(ServerConnection);

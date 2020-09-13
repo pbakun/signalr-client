@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from "styled-components";
 import { TextField, PrimaryButton, CommandBarButton, Icon, IIconProps } from "@fluentui/react";
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { addArgumentToMethod } from "../../../Store/actions/hub/hubActions";
+import * as InvokeMethodType from "../../../DataTypes/InvokeMethods";
 
 const ArgumentsDiv = styled.div`
     display: flex;
@@ -28,21 +32,7 @@ const styles = {
     }
 }
 
-const data = [
-    {
-        value: "GetSomething"
-    },
-    {
-        value: "Dupa"
-    }
-]
-
-const emptyArg = {
-    value: ""
-}
-
-const SeparateArguments = props => {
-    const [args, setArgs] = useState(data);
+const SeparateArguments = ({id, args, ...props}) => {
 
     const printArguments = (data) => {
         return data.map((arg, index) => (
@@ -61,7 +51,7 @@ const SeparateArguments = props => {
     }
 
     const handleNewArgClick = () => {
-        setArgs(prevState => [...prevState, emptyArg]);
+        props.addArgumentToMethod(id);
     }
 
     return (
@@ -78,7 +68,11 @@ const SeparateArguments = props => {
 }
 
 SeparateArguments.propTypes = {
-
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    args: PropTypes.arrayOf(InvokeMethodType.argument),
+    addArgumentToMethod: PropTypes.func
 }
 
-export default SeparateArguments
+const mapDispatchToProps = dispatch => bindActionCreators({addArgumentToMethod}, dispatch);
+
+export default connect(null, mapDispatchToProps)(SeparateArguments)

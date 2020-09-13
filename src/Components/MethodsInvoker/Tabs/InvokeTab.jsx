@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from "styled-components";
 import { TextField, PrimaryButton, CommandBarButton, Icon, IIconProps } from "@fluentui/react";
 import SeparateArguments from '../ArgumentsInput/SeparateArguments';
+import * as InvokeMethodsType from "../../../DataTypes/InvokeMethods";
 
 const Container = styled.div`
     margin: 20px;
@@ -42,16 +43,22 @@ const styles = {
     }
 }
 
-const InvokeTab = props => {
+const InvokeTab = ({invokeMethod}) => {
     return (
         <Container>
             <MethodDiv>
-                <TextField styles={styles.textfield} />
+                <TextField
+                    styles={styles.textfield}
+                    value={invokeMethod.name}
+                />
                 <PrimaryButton primary styles={styles.button}>
                     Invoke
                 </PrimaryButton>
             </MethodDiv>
-            <SeparateArguments />
+            <SeparateArguments
+                id={invokeMethod.id}
+                args={invokeMethod.arguments}
+            />
             <ContentDiv>
 
         <TextField label="With auto adjusting height" multiline autoAdjustHeight />
@@ -62,7 +69,7 @@ const InvokeTab = props => {
 }
 
 InvokeTab.propTypes = {
-
+    invokeMethod: InvokeMethodsType.method
 }
 
-export default InvokeTab
+export default InvokeTab;

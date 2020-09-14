@@ -6,7 +6,8 @@ import StyledTab from "../../../Containers/Navigation/StyledTab";
 
 const MethodTab = ({id, name, onDelete, onTabChange}) => {
 
-    const handleDelete = () => {
+    const handleDelete = (e) => {
+        e.stopPropagation();
         onDelete && onDelete(id);
     }
 

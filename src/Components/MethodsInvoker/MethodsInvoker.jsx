@@ -1,29 +1,42 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Tabs from './Tabs/Tabs'
 import InvokeTab from './Tabs/InvokeTab';
 import * as InvokeMethodType from "../../DataTypes/InvokeMethods";
 import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import { changeSelectedMethodName } from "../../Store/actions/hubMethods/actions";
+import usePrevious from './../../Hooks/usePrevious';
 
-const MethodsInvoker = ({invokeMethods}) => {
-    const [tab, setTab] = useState(invokeMethods[0]);
+const MethodsInvoker = ({ selectedMethod, invokeMethods, ...props }) => {
+
+    useEffect(() => {
+        console.log('selectedMethod effect :>> ', selectedMethod);
+    }, [selectedMethod]);
 
     return (
         <div>
-            <Tabs onTabChange={(id) => setTab(id)} />
-            {/* <InvokeTab
-                // invokeMethod={invokeMethods.find(method => method.id === tab)}
-            /> */}
+            <Tabs />
+            {selectedMethod &&
+            <InvokeTab
+                invokeMethod={selectedMethod}
+                onNameChange={(value) => props.changeSelectedMethodName(value)}
+            />}
         </div>
     )
 }
 
 const mapStateToProps = state => ({
-    invokeMethods: state.hubReducer.invokeMethods
-})
+    selectedMethod: state.hubMethodsReducer.selectedMethod,
+    invokeMethods: state.hubMethodsReducer.invokeMethods
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({changeSelectedMethodName}, dispatch);
 
 MethodsInvoker.propTypes = {
-    invokeMethods: PropTypes.arrayOf(InvokeMethodType.method)
+    //redux
+    invokeMethods: PropTypes.arrayOf(InvokeMethodType.method),
+    changeSelectedMethodName: PropTypes.func
 }
 
-export default connect(mapStateToProps)(MethodsInvoker)
+export default connect(mapStateToProps, mapDispatchToProps)(MethodsInvoker)

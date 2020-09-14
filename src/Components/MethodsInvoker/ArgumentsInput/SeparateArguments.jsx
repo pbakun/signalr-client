@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { TextField, PrimaryButton, CommandBarButton, Icon, IIconProps } from "@fluentui/react";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { addArgumentToMethod } from "../../../Store/actions/hub/hubActions";
+import { addArgumentToMethod } from "../../../Store/actions/hubMethods/actions";
 import * as InvokeMethodType from "../../../DataTypes/InvokeMethods";
 
 const ArgumentsDiv = styled.div`

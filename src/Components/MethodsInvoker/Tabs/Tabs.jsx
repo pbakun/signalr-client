@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from "styled-components";
 import { Pivot, PivotItem, CommandBarButton, IconButton } from "@fluentui/react";
@@ -7,8 +7,9 @@ import InvokeTab from './InvokeTab';
 import StyledTab from "../../../Containers/Navigation/StyledTab";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { addInvokeMethod, deleteInvokeMethod } from './../../../Store/actions/hub/hubActions';
+import { addInvokeMethod, deleteInvokeMethod, selectMethod } from './../../../Store/actions/hubMethods/actions';
 import MethodTab from './MethodTab';
+import usePrevious from './../../../Hooks/usePrevious';
 
 const TabsContainer = styled.div`
     display: flex;
@@ -17,7 +18,25 @@ const TabsContainer = styled.div`
     wrap: flex-wrap;
 `;
 
-const Tabs = ({invokeMethods, onTabChange, ...props}) => {
+const Tabs = ({selectedMethod, invokeMethods, onTabChange, ...props}) => {
+    const previousState = usePrevious(invokeMethods);
+
+    // useEffect(() => {
+    //     if(previousState && previousState.length < invokeMethods.length)
+    //         return onTabChange(invokeMethods[invokeMethods.length - 1].id);
+    // }, [invokeMethods]);
+
+    const handleTabChange = (id) => {
+        props.selectMethod(id);
+    }
+
+    const handleAddNewTab = () => {
+        props.addInvokeMethod();
+    }
+
+    const handleDeleteTab = (id) => {
+        props.deleteInvokeMethod(id);
+    }
 
     const printTabs = (data) => {
         return data.map((tab, index) => (
@@ -25,8 +44,8 @@ const Tabs = ({invokeMethods, onTabChange, ...props}) => {
                 key={tab.id}
                 id={tab.id}
                 name={tab.name}
-                onDelete={(id) => props.deleteInvokeMethod(id)}
-                onTabChange={onTabChange}
+                onDelete={handleDeleteTab}
+                onTabChange={handleTabChange}
             />
         ))
     }
@@ -37,7 +56,7 @@ const Tabs = ({invokeMethods, onTabChange, ...props}) => {
             <StyledTab>
                 <IconButton
                     iconProps={{iconName: "Add"}}
-                    onClick={() => props.addInvokeMethod()}
+                    onClick={handleAddNewTab}
                 />
             </StyledTab>
         </TabsContainer>
@@ -47,16 +66,18 @@ const Tabs = ({invokeMethods, onTabChange, ...props}) => {
 Tabs.propTypes = {
     onTabChange: PropTypes.func,
     //redux
+    selectedMethod: InvokeMethodsType.method,
     invokeMethods: PropTypes.arrayOf(InvokeMethodsType.method),
     addInvokeMethod: PropTypes.func,
     deleteInvokeMethod: PropTypes.func
 }
 
 const mapStateToProps = (state) => ({
-    invokeMethods: state.hubReducer.invokeMethods
+    selectedMethod: state.hubMethodsReducer.selectedMethod,
+    invokeMethods: state.hubMethodsReducer.invokeMethods
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({addInvokeMethod, deleteInvokeMethod}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({addInvokeMethod, deleteInvokeMethod, selectMethod}, dispatch);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tabs);

@@ -33,28 +33,28 @@ export default (state = initialState, { type, payload }) => {
                 isConnected: payload
             }
         }
-        case actionTypes.ADD_INVOKE_METHOD: {
-            return {
-                ...state,
-                invokeMethods: [...state.invokeMethods, newInvokeMethod()]
-            }
-        }
-        case actionTypes.ADD_ARG_TO_INVOKE_METHOD: {
-            return {
-                ...state,
-                invokeMethods: state.invokeMethods.map(method => {
-                    if(method.id === payload)
-                        method.arguments = [...method.arguments, newInvokeMethodArgument()];
-                    return method;
-                })
-            }
-        }
-        case actionTypes.DELETE_INVOKE_METHOD: {
-            return {
-                ...state,
-                invokeMethods: state.invokeMethods.filter(method => method.id !== payload)
-            }
-        }
+        // case actionTypes.ADD_INVOKE_METHOD: {
+        //     return {
+        //         ...state,
+        //         invokeMethods: [...state.invokeMethods, newInvokeMethod()]
+        //     }
+        // }
+        // case actionTypes.ADD_ARG_TO_INVOKE_METHOD: {
+        //     return {
+        //         ...state,
+        //         invokeMethods: state.invokeMethods.map(method => {
+        //             if(method.id === payload)
+        //                 method.arguments = [...method.arguments, newInvokeMethodArgument()];
+        //             return method;
+        //         })
+        //     }
+        // }
+        // case actionTypes.DELETE_INVOKE_METHOD: {
+        //     return {
+        //         ...state,
+        //         invokeMethods: state.invokeMethods.filter(method => method.id !== payload)
+        //     }
+        // }
         default:
             return state
         }

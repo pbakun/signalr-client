@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from "styled-components";
 import { TextField, PrimaryButton, CommandBarButton, Icon, IIconProps } from "@fluentui/react";
@@ -43,13 +43,26 @@ const styles = {
     }
 }
 
-const InvokeTab = ({invokeMethod}) => {
+const InvokeTab = ({invokeMethod, onNameChange}) => {
+    const [name, setName] = useState(invokeMethod.name);
+
+    useEffect(() => {
+        setName(invokeMethod.name);
+    }, [invokeMethod]);
+
+    const handleNameChange = () => {
+        onNameChange && onNameChange(name)
+    }
+
     return (
         <Container>
             <MethodDiv>
                 <TextField
                     styles={styles.textfield}
-                    value={invokeMethod.name}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    onBlur={handleNameChange}
+                    onKeyUp={(e) => e.key === "Enter" && handleNameChange()}
                 />
                 <PrimaryButton primary styles={styles.button}>
                     Invoke
@@ -69,7 +82,8 @@ const InvokeTab = ({invokeMethod}) => {
 }
 
 InvokeTab.propTypes = {
-    invokeMethod: InvokeMethodsType.method
+    invokeMethod: InvokeMethodsType.method,
+    onNameChange: PropTypes.func
 }
 
 export default InvokeTab;

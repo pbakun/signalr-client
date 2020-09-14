@@ -32,30 +32,3 @@ export const setUpConnectionState = state => {
         });
     };
 };
-
-export const addInvokeMethod = () => {
-    return dispatch => {
-        dispatch({
-            type: type.ADD_INVOKE_METHOD
-        });
-    };
-};
-
-export const deleteInvokeMethod = (id) => {
-    return dispatch => {
-        dispatch({
-            type: type.DELETE_INVOKE_METHOD,
-            payload: id
-        });
-    };
-}
-
-export const addArgumentToMethod = id => {
-    console.log("add argument" + id)
-    return dispatch => {
-        dispatch({
-            type: type.ADD_ARG_TO_INVOKE_METHOD,
-            payload: id
-        });
-    };
-}

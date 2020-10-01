@@ -45,6 +45,17 @@ export default (state = initialState, { type, payload }) => {
                 })
             }
         }
+        case actionTypes.DELETE_ARG_FROM_INVOKE_METHOD: {
+            return {
+                ...state,
+                invokeMethods: state.invokeMethods.map(method => {
+                    if(method.id !== payload.method)
+                        return method;
+                    method.arguments = method.arguments.filter(arg => arg.id !== payload.arg);
+                    return method;
+                })
+            }
+        }
         case actionTypes.DELETE_INVOKE_METHOD: {
             return {
                 ...state,

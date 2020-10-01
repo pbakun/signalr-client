@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { TextField, PrimaryButton, CommandBarButton, Icon, IIconProps } from "@fluentui/react";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { addArgumentToMethod } from "../../../Store/actions/hubMethods/actions";
+import { addArgumentToMethod, deleteArgumentFromMethod } from "../../../Store/actions/hubMethods/actions";
 import * as InvokeMethodType from "../../../DataTypes/InvokeMethods";
 
 const ArgumentsDiv = styled.div`
@@ -27,7 +27,10 @@ const styles = {
     },
     iconDeleteArg: {
         root: {
-            cursor: "pointer"
+            cursor: "pointer",
+            position: "relative",
+            left: "-20px",
+            bottom: "10px"
         }
     }
 }
@@ -36,17 +39,19 @@ const SeparateArguments = ({id, args, ...props}) => {
 
     const printArguments = (data) => {
         return data.map((arg, index) => (
+            <div style={{display: "flex", alignItems: "flex-end"}}>
             <TextField
                 key={index}
                 styles={styles.textfield}
                 label={`Argument ${index+1}`}
                 value={arg.value}
-                iconProps={{
-                    iconName: "Cancel",
-                    styles: styles.iconDeleteArg,
-                    onClick: () => console.log('dupa')
-                }}
             />
+            <Icon
+                iconName={"Cancel"}
+                styles={styles.iconDeleteArg}
+                onClick={() => props.deleteArgumentFromMethod(id, arg.id)}
+            />
+            </div>
         ));
     }
 
@@ -73,6 +78,6 @@ SeparateArguments.propTypes = {
     addArgumentToMethod: PropTypes.func
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({addArgumentToMethod}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({addArgumentToMethod, deleteArgumentFromMethod}, dispatch);
 
 export default connect(null, mapDispatchToProps)(SeparateArguments)

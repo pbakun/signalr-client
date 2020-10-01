@@ -78,3 +78,16 @@ export const addArgumentToMethod = id => {
         });
     };
 }
+
+export const deleteArgumentFromMethod = (methodId, argId) => {
+    console.log('delete argument', argId);
+    return dispatch => {
+        dispatch({
+            type: actionTypes.DELETE_ARG_FROM_INVOKE_METHOD,
+            payload: {
+                method: methodId,
+                arg: argId
+            }
+        });
+    };
+}

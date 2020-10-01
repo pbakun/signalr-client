@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from "styled-components";
 import { IconButton } from "@fluentui/react";
 import StyledTab from "../../../Containers/Navigation/StyledTab";
 
+const maxStringLength = 12;
+
 const MethodTab = ({id, name, onDelete, onTabChange}) => {
+
+    const displayName = name && name.substring(0, maxStringLength);
 
     const handleDelete = (e) => {
         e.stopPropagation();
@@ -16,7 +19,7 @@ const MethodTab = ({id, name, onDelete, onTabChange}) => {
             style={{paddingLeft: 10}}
             onClick={() => onTabChange(id)}
         >
-            {name}
+            {displayName}{displayName === maxStringLength && "..."}
             <IconButton
                 iconProps={{iconName: "Cancel"}}
                 onClick={handleDelete}

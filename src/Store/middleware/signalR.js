@@ -2,7 +2,7 @@ import { HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import * as actionType from "../actionTypes";
 import { setUpConnectionState } from '../actions/hub/hubActions';
 import { bindActionCreators } from 'redux';
-import HubConnection from "../../Constants/HubConnection";
+import HubConnection from "../../constants/HubConnection";
 
 const isConnected = connection => connection && connection.state === HubConnectionState.Connected;
 
@@ -53,6 +53,7 @@ export const signalRMiddleware = () => {
                 const method = store.getState().hubMethodsReducer.selectedMethod;
                 console.log('Invoking method');
                 invokeMethod(signalRConnection, method.name, method.arguments);
+                break;
             }
             default:
                 break;

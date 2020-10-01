@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from "styled-components";
 import { TextField, PrimaryButton, CommandBarButton, Icon, IIconProps } from "@fluentui/react";
 import SeparateArguments from '../ArgumentsInput/SeparateArguments';
-import * as InvokeMethodsType from "../../../DataTypes/InvokeMethods";
+import * as InvokeMethodsType from "../../../dataTypes/InvokeMethods";
 
 const Container = styled.div`
     margin: 20px;

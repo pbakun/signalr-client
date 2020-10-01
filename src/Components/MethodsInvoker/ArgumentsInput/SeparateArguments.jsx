@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from "styled-components";
-import { TextField, PrimaryButton, CommandBarButton, Icon, IIconProps } from "@fluentui/react";
+import { CommandBarButton, } from "@fluentui/react";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { addArgumentToMethod, deleteArgumentFromMethod } from "../../../Store/actions/hubMethods/actions";
-import * as InvokeMethodType from "../../../DataTypes/InvokeMethods";
+import { addArgumentToMethod, deleteArgumentFromMethod, changeArgumentValue } from "../../../Store/actions/hubMethods/actions";
+import * as InvokeMethodType from "../../../dataTypes/InvokeMethods";
+import SingleArgumentInput from '../../../shared/SingleArgumentInput';
 
 const ArgumentsDiv = styled.div`
     display: flex;
@@ -41,22 +42,18 @@ const styles = {
     }
 }
 
-const SeparateArguments = ({id, args, ...props}) => {
+const SeparateArguments = ({ id, args, ...props }) => {
 
     const printArguments = (data) => {
+        console.log('data :>> ', data);
         return data.map((arg, index) => (
-            <InputDiv key={index}>
-                <TextField
-                    styles={styles.textfield}
-                    label={`Argument ${index+1}`}
-                    value={arg.value}
-                />
-                <Icon
-                    iconName={"Cancel"}
-                    styles={styles.iconDeleteArg}
-                    onClick={() => props.deleteArgumentFromMethod(id, arg.id)}
-                />
-            </InputDiv>
+            <SingleArgumentInput
+                key={index}
+                label={`Argument ${index + 1}`}
+                value={arg.value}
+                onDelete={() => props.deleteArgumentFromMethod(id, arg.id)}
+                onChange={(value) => props.changeArgumentValue(id, arg.id, value)}
+            />
         ));
     }
 
@@ -68,7 +65,7 @@ const SeparateArguments = ({id, args, ...props}) => {
         <ArgumentsDiv>
             {printArguments(args)}
             <CommandBarButton
-                iconProps={{iconName: "Add"}}
+                iconProps={{ iconName: "Add" }}
                 text="New Arg"
                 styles={styles.commandButton}
                 onClick={handleNewArgClick}
@@ -83,6 +80,6 @@ SeparateArguments.propTypes = {
     addArgumentToMethod: PropTypes.func
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({addArgumentToMethod, deleteArgumentFromMethod}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ addArgumentToMethod, deleteArgumentFromMethod, changeArgumentValue }, dispatch);
 
 export default connect(null, mapDispatchToProps)(SeparateArguments)

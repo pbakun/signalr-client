@@ -84,12 +84,29 @@ export const deleteArgumentFromMethod = (methodId, argId) => {
         let method = getState().hubMethodsReducer.invokeMethods.find(method => method.id === methodId);
         if(method && method.arguments.length === 1)
             return;
+        console.log('methodId', methodId)
+        console.log('argId', argId)
+        console.log('method', method)
         dispatch({
             type: actionTypes.DELETE_ARG_FROM_INVOKE_METHOD,
             payload: {
-                method: methodId,
-                arg: argId
+                methodId: methodId,
+                argId: argId
             }
         });
     };
+}
+
+export const changeArgumentValue = (methodId, argId, value) => {
+    return (dispatch) => {
+        console.log('changeArgValue')
+        dispatch({
+            type: actionTypes.CHANGE_ARGUMENT_VALUE,
+            payload: {
+                methodId: methodId,
+                argId: argId,
+                value: value
+            }
+        })
+    }
 }

@@ -1,5 +1,5 @@
 import * as actionTypes from "../actionTypes";
-import guid from './../../Utility/guid';
+import guid from '../../utility/guid';
 
 export const newInvokeMethodArgument = () => ({
     id: guid(),
@@ -49,9 +49,9 @@ export default (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 invokeMethods: state.invokeMethods.map(method => {
-                    if(method.id !== payload.method)
+                    if (method.id !== payload.methodId)
                         return method;
-                    method.arguments = method.arguments.filter(arg => arg.id !== payload.arg);
+                    method.arguments = method.arguments.filter(arg => arg.id !== payload.argId);
                     return method;
                 })
             }
@@ -66,6 +66,29 @@ export default (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 ...payload
+            }
+        }
+        case actionTypes.CHANGE_ARGUMENT_VALUE: {
+            return {
+                ...state,
+                invokeMethods: state.invokeMethods.map(method => {
+                    if (method.id !== payload.methodId)
+                        return method;
+                    method.arguments = method.arguments.map(arg => {
+                        if (arg.id !== payload.argId)
+                            return arg;
+                        arg.value = payload.value;
+                        return arg;
+                    })
+                    return method;
+                }),
+                // selectedMethod: state.selectedMethod.arguments.map(arg => {
+                //     if (arg.id !== payload.argId)
+                //         return arg;
+                //     arg.value = payload.value;
+                //     console.log('arg', arg)
+                //     return arg;
+                // })
             }
         }
         default:

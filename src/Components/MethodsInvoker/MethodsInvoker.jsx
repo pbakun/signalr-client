@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Tabs from './Tabs/Tabs'
 import InvokeTab from './Tabs/InvokeTab';
-import * as InvokeMethodType from "../../DataTypes/InvokeMethods";
+import * as InvokeMethodType from "../../dataTypes/InvokeMethods";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { changeSelectedMethodName } from "../../Store/actions/hubMethods/actions";
 import { invokeSelectedMethod } from "../../Store/actions/hub/hubActions";
-import usePrevious from './../../Hooks/usePrevious';
+import usePrevious from '../../hooks/usePrevious';
 
 const MethodsInvoker = ({ selectedMethod, invokeMethods, ...props }) => {
-
+    console.log('invokeMethods :>> ', invokeMethods);
     useEffect(() => {
         console.log('selectedMethod effect :>> ', selectedMethod);
     }, [selectedMethod]);

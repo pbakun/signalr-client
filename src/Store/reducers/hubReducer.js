@@ -1,6 +1,6 @@
-import HubConnection from "../../Constants/HubConnection";
+import HubConnection from "../../constants/HubConnection";
 import * as actionTypes from "../actionTypes";
-import guid from './../../Utility/guid';
+import guid from '../../utility/guid';
 
 const newInvokeMethodArgument = () => ({
     id: guid(),

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import useWindowPosition from '../Hooks/useWindowPosition';
+import useWindowPosition from '../hooks/useWindowPosition';
 
 export const ModalContext = React.createContext({});
 

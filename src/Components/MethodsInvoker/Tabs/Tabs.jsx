@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from "styled-components";
-import { Pivot, PivotItem, CommandBarButton, IconButton } from "@fluentui/react";
-import * as InvokeMethodsType from "../../../DataTypes/InvokeMethods";
-import InvokeTab from './InvokeTab';
+import { IconButton } from "@fluentui/react";
+import * as InvokeMethodsType from "../../../dataTypes/InvokeMethods";
 import StyledTab from "../../../Containers/Navigation/StyledTab";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { addInvokeMethod, deleteInvokeMethod, selectMethod } from './../../../Store/actions/hubMethods/actions';
 import MethodTab from './MethodTab';
-import usePrevious from './../../../Hooks/usePrevious';
+import usePrevious from '../../../hooks/usePrevious';
 
 const TabsContainer = styled.div`
     display: flex;
@@ -41,7 +40,7 @@ const Tabs = ({selectedMethod, invokeMethods, onTabChange, ...props}) => {
     const printTabs = (data) => {
         return data.map((tab, index) => (
             <MethodTab
-                key={tab.id}
+                key={index}
                 id={tab.id}
                 name={tab.name}
                 onDelete={handleDeleteTab}

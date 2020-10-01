@@ -19,7 +19,7 @@ const MethodTab = ({id, name, onDelete, onTabChange}) => {
             style={{paddingLeft: 10}}
             onClick={() => onTabChange(id)}
         >
-            {displayName}{displayName === maxStringLength && "..."}
+            {displayName}{displayName && displayName.length === maxStringLength && "..."}
             <IconButton
                 iconProps={{iconName: "Cancel"}}
                 onClick={handleDelete}

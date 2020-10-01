@@ -43,7 +43,7 @@ const styles = {
     }
 }
 
-const InvokeTab = ({invokeMethod, onNameChange}) => {
+const InvokeTab = ({invokeMethod, onNameChange, onInvoke}) => {
     const [name, setName] = useState(invokeMethod.name);
 
     useEffect(() => {
@@ -52,6 +52,10 @@ const InvokeTab = ({invokeMethod, onNameChange}) => {
 
     const handleNameChange = () => {
         onNameChange && onNameChange(name)
+    }
+
+    const handleInvoke = () => {
+        onInvoke && onInvoke();
     }
 
     return (
@@ -64,7 +68,11 @@ const InvokeTab = ({invokeMethod, onNameChange}) => {
                     onBlur={handleNameChange}
                     onKeyUp={(e) => e.key === "Enter" && handleNameChange()}
                 />
-                <PrimaryButton primary styles={styles.button}>
+                <PrimaryButton
+                    primary
+                    styles={styles.button}
+                    onClick={onInvoke}
+                >
                     Invoke
                 </PrimaryButton>
             </MethodDiv>
@@ -83,7 +91,8 @@ const InvokeTab = ({invokeMethod, onNameChange}) => {
 
 InvokeTab.propTypes = {
     invokeMethod: InvokeMethodsType.method,
-    onNameChange: PropTypes.func
+    onNameChange: PropTypes.func,
+    onInvoke: PropTypes.func
 }
 
 export default InvokeTab;

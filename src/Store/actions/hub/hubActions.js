@@ -14,6 +14,14 @@ export const disconnectHub = () => {
     };
 };
 
+export const invokeSelectedMethod = () => {
+    return dispatch => {
+        dispatch({
+            type: type.INVOKE_SELECTED_METHOD
+        });
+    };
+};
+
 export const changeHubUrl = value => {
     return dispatch => {
         dispatch({

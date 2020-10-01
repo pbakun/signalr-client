@@ -6,6 +6,7 @@ import * as InvokeMethodType from "../../DataTypes/InvokeMethods";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { changeSelectedMethodName } from "../../Store/actions/hubMethods/actions";
+import { invokeSelectedMethod } from "../../Store/actions/hub/hubActions";
 import usePrevious from './../../Hooks/usePrevious';
 
 const MethodsInvoker = ({ selectedMethod, invokeMethods, ...props }) => {
@@ -21,6 +22,7 @@ const MethodsInvoker = ({ selectedMethod, invokeMethods, ...props }) => {
             <InvokeTab
                 invokeMethod={selectedMethod}
                 onNameChange={(value) => props.changeSelectedMethodName(value)}
+                onInvoke={() => props.invokeSelectedMethod()}
             />}
         </div>
     )
@@ -31,7 +33,7 @@ const mapStateToProps = state => ({
     invokeMethods: state.hubMethodsReducer.invokeMethods
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({changeSelectedMethodName}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({changeSelectedMethodName, invokeSelectedMethod}, dispatch);
 
 MethodsInvoker.propTypes = {
     //redux

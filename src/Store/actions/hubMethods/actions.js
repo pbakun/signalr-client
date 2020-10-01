@@ -80,8 +80,10 @@ export const addArgumentToMethod = id => {
 }
 
 export const deleteArgumentFromMethod = (methodId, argId) => {
-    console.log('delete argument', argId);
-    return dispatch => {
+    return (dispatch, getState) => {
+        let method = getState().hubMethodsReducer.invokeMethods.find(method => method.id === methodId);
+        if(method && method.arguments.length === 1)
+            return;
         dispatch({
             type: actionTypes.DELETE_ARG_FROM_INVOKE_METHOD,
             payload: {

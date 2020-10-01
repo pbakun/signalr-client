@@ -21,6 +21,12 @@ const startConnection = connection => !isConnected(connection) ? connection.star
 
 const stopConnection = (connection) => isConnected(connection) ? connection.stop() : Promise.resolve()
 
+const invokeMethod = (connection, methodName, args) => {
+    if(!isConnected(connection))
+        return;
+    connection.invoke(methodName, ...args);
+}
+
 export const signalRMiddleware = () => {
     let signalRConnection = null;
 
@@ -40,8 +46,13 @@ export const signalRMiddleware = () => {
             }
             case actionType.STOP_HUB_CONNECTION: {
                 console.log("Stopping hub connection");
-                stopConnection().then(() => updateConnectionState(HubConnection.DISCONNECTED));
+                stopConnection(signalRConnection).then(() => updateConnectionState(HubConnection.DISCONNECTED));
                 break;
+            }
+            case actionType.INVOKE_SELECTED_METHOD: {
+                const method = store.getState().hubMethodsReducer.selectedMethod;
+                console.log('Invoking method');
+                invokeMethod(signalRConnection, method.name, method.arguments);
             }
             default:
                 break;

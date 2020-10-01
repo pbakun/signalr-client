@@ -13,6 +13,11 @@ const ArgumentsDiv = styled.div`
     align-items: flex-end;
 `;
 
+const InputDiv = styled.div`
+    display: flex;
+    align-items: flex-end;
+`;
+
 const styles = {
     textfield: {
         root: {
@@ -22,7 +27,8 @@ const styles = {
     },
     commandButton: {
         root: {
-            minHeight: 32
+            minHeight: 32,
+            left: "-10px"
         }
     },
     iconDeleteArg: {
@@ -39,19 +45,18 @@ const SeparateArguments = ({id, args, ...props}) => {
 
     const printArguments = (data) => {
         return data.map((arg, index) => (
-            <div style={{display: "flex", alignItems: "flex-end"}}>
-            <TextField
-                key={index}
-                styles={styles.textfield}
-                label={`Argument ${index+1}`}
-                value={arg.value}
-            />
-            <Icon
-                iconName={"Cancel"}
-                styles={styles.iconDeleteArg}
-                onClick={() => props.deleteArgumentFromMethod(id, arg.id)}
-            />
-            </div>
+            <InputDiv key={index}>
+                <TextField
+                    styles={styles.textfield}
+                    label={`Argument ${index+1}`}
+                    value={arg.value}
+                />
+                <Icon
+                    iconName={"Cancel"}
+                    styles={styles.iconDeleteArg}
+                    onClick={() => props.deleteArgumentFromMethod(id, arg.id)}
+                />
+            </InputDiv>
         ));
     }
 
